@@ -1,0 +1,35 @@
+help
+    Commands Syntax:
+        new (name) vod|broadcast|schedule [properties]
+        setup (name) (properties)
+        show [(name)|media|schedule]
+        del (name)|all|media|schedule
+        control (name) [instance_name] (command)
+        save (config_file)
+        export
+        load (config_file)
+    Media Proprieties Syntax:
+        input (input_name)
+        inputdel (input_name)|all
+        inputdeln input_number
+        output (output_name)
+        option (option_name)[=value]
+        enabled|disabled
+        loop|unloop (broadcast only)
+        mux (mux_name)
+    Schedule Proprieties Syntax:
+        enabled|disabled
+        append (command_until_rest_of_the_line)
+        date (year)/(month)/(day)-(hour):(minutes):(seconds)|now
+        period (years_aka_12_months)/(months_aka_30_days)/(days)-(hours):(minutes):(seconds)
+        repeat (number_of_repetitions)
+    Control Commands Syntax:
+        play [input_number]
+        pause
+        stop
+        seek [+-](percentage) | [+-](seconds)s | [+-](milliseconds)ms
+    Telnet Specific Commands:
+        logout, quit, exit
+        shutdown
+        @moduleinstance command argument
+
