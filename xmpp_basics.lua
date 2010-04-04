@@ -135,3 +135,7 @@ end);
 print("Starting loop...")
 verse.loop()
 
+-- more VLC see http://wiki.foaf-project.org/w/Buttons/VLC
+--    open "http://localhost:8080/requests/status.xml?command=setup test1 input file:///Users/danbri/Movies/BBC_LIFE/BBC.Life.s01e07.Hunters.And.Hunted.2009.HDTV.720p.x264.AC3.mkv"
+--    open "http://localhost:8080/requests/status.xml?command=control test1 play"
+
