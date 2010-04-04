@@ -17,7 +17,17 @@ local function set_version(self, version_info)
 end
 
 vlc = "http://localhost:8080/requests/status.xml"; -- http://git.videolan.org/?p=vlc.git;a=blob_plain;f=share/http/requests/readme;hb=HEAD
+-- VLC commands
+-- First those with no arguments, that have side effects (HTTP POST / XMPP IQ SET?)
+-- these are a subset; see VLC docs for full listing.
 local vlc_next = vlc .. "?command=pl_next";
+local vlc_fullscreen = vlc .. "?command=fullscreen";
+local vlc_toggle_pause = vlc .. "?command=pl_pause"; -- impact depends on current state
+local vlc_stop = vlc .. "?command=pl_stop";
+local vlc_prev = vlc .. "?command=pl_previous";
+local vlc_empty_playlist = vlc .. "?command=pl_empty";
+local vlc_fullscreen = vlc .. "command=fullscreen";
+-- todo, investigate vlm_cmd.xml:
 
 require "luarocks.require";
 require "socket";
