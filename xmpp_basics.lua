@@ -16,9 +16,15 @@ local function set_version(self, version_info)
       	self.platform = version_info.platform;
 end
 
-require "verse"
-require "verse.client"
-c = verse.new()
+vlc = "http://localhost:8080/requests/status.xml"; -- http://git.videolan.org/?p=vlc.git;a=blob_plain;f=share/http/requests/readme;hb=HEAD
+local vlc_next = vlc .. "?command=pl_next";
+
+require "luarocks.require";
+require "socket";
+require "socket.http";
+require "verse";
+require "verse.client";
+c = verse.new();
 c:add_plugin("sasl");
 c:add_plugin("version");
 
@@ -50,6 +56,27 @@ c:hook("stanza", function (stanza)
           x:tag("query"):tag("nothing_much");
 	  c:send(x);
 	end
+
+	  -- http://www.steve.org.uk/Software/lua-httpd/docs/examples.html
+	  -- localhost:8080/requests/status.xml
+	  -- http://git.videolan.org/?p=vlc.git;a=blob_plain;f=share/http/requests/readme;hb=HEAD
+	  -- http://git.videolan.org/?p=vlc.git;a=tree;f=share/lua/http;h=5a3dd5b7b5cda0650f56c1785d12c228141113be;hb=HEAD
+	  -- see also http://git.videolan.org/?p=vlc.git;a=blob_plain;f=share/lua/extensions/imdb.lua;hb=HEAD
+	  -- b, h, c, e = socket.http.get("http://www.tecgraf.puc-rio.br/luasocket/http.html")
+
+-- Note, Buttons markup needs to move from chat to IQ messages before we have a fixed protocol here:
+
+	if cmd == "NOWP" then
+--	if cmd == "PLUS" then
+	  print "PLUS: received control msg, up/more/plus!"; -- fixme: decide on a mapping
+          x=verse.iq({ type = "set", to = stanza.attr.from, from = stanza.attr.to });
+	  local http = require("socket.http");
+	  local res = http.request(vlc_next);
+	  print("Tried to talk to vlc.", res);
+          x:tag("query"):tag("ok");
+	  c:send(x); -- assuming it went ok, if http failed or other evidence of oops, send a notok?
+	end
+
       end
     end
 
@@ -57,9 +84,14 @@ c:hook("stanza", function (stanza)
     x:tag("query"):tag("ok");
     print("X: ",x);
   end
+
 --  c:send(x);
   print("\n\n");
 end);
+
+
+
+
 
 -- This one prints all received data
 c:hook("incoming-raw", print, 1000);
