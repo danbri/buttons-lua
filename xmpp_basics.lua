@@ -29,6 +29,12 @@ local vlc_empty_playlist = vlc .. "?command=pl_empty";
 local vlc_fullscreen = vlc .. "command=fullscreen";
 -- todo, investigate vlm_cmd.xml:
 
+-- here's how we get a screenshot
+-- curl -s "http://localhost:8080/requests/status.xml?command=snapshot">/dev/null; ls ~/Desktop/*png
+-- dumps an image/png into a dir (Desktop/ in my case), named something like vlcsnap-2010-04-04-22h19m54s229.png
+-- todo: look at http://git.videolan.org/?p=vlc.git;a=blob_plain;f=share/lua/README.txt
+-- 
+
 require "luarocks.require";
 require "socket";
 require "socket.http";
