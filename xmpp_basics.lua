@@ -2,6 +2,14 @@
 
 --package.path = package.path .. ";../hg/verse/?.lua"; -- path to verse libraries
 
+-- installation
+-- pure lua dependencies are squished into 'verse.lua' nearby
+-- install the luarocks package manager (apt-get install luarocks)
+-- apt-get install libexpat1-dev for Expat headers
+--  luarocks install luasocket
+--  luarocks install luaexpat
+-- todo: find out if luasocket and luaexpat (lxp) are available in VLC
+
 require "luarocks.require";
 require "socket";
 require "socket.http";
