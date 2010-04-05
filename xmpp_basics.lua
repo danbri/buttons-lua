@@ -1,22 +1,26 @@
 #!/usr/bin/lua 
 
-package.path = package.path .. ";../hg/verse/?.lua"; -- path to verse libraries
-		-- see wiki.foaf-project.org/w/DanBri/LuaXMPP for setup tips
-		-- XMPP Basics
-		-- This Lua script shows use of Verse to connect to 
-		-- set the appropriate account password, eg using: export BUTTONS_TEST=secrethere
+--package.path = package.path .. ";../hg/verse/?.lua"; -- path to verse libraries
+
+require "luarocks.require";
+require "socket";
+require "socket.http";
+require "verse";
+require "verse.client";
+
+-- see wiki.foaf-project.org/w/DanBri/LuaXMPP for setup tips
+-- XMPP Basics
+-- This Lua script shows use of Verse to connect to 
+-- set the appropriate account password, eg using: export BUTTONS_TEST=secrethere
 
 
--- set up XMPP basics
+-- set up XMPP 
 local jid, password = "buttons@foaf.tv", os.getenv ('BUTTONS_TEST');
+-- todo: check for nil password
 local xmlns_buttons = "http://buttons.foaf.tv/";
-local function set_version(self, version_info)
-  	self.name = version_info.name;
-      	self.version = version_info.version;
-      	self.platform = version_info.platform;
-end
-
 vlc = "http://localhost:8080/requests/status.xml"; -- http://git.videolan.org/?p=vlc.git;a=blob_plain;f=share/http/requests/readme;hb=HEAD
+
+
 -- VLC commands
 -- First those with no arguments, that have side effects (HTTP POST / XMPP IQ SET?)
 -- these are a subset; see VLC docs for full listing.
@@ -27,19 +31,12 @@ local vlc_stop = vlc .. "?command=pl_stop";
 local vlc_prev = vlc .. "?command=pl_previous";
 local vlc_empty_playlist = vlc .. "?command=pl_empty";
 local vlc_fullscreen = vlc .. "command=fullscreen";
--- todo, investigate vlm_cmd.xml:
-
+-- todo: investigate vlm_cmd.xml
 -- here's how we get a screenshot
 -- curl -s "http://localhost:8080/requests/status.xml?command=snapshot">/dev/null; ls ~/Desktop/*png
 -- dumps an image/png into a dir (Desktop/ in my case), named something like vlcsnap-2010-04-04-22h19m54s229.png
 -- todo: look at http://git.videolan.org/?p=vlc.git;a=blob_plain;f=share/lua/README.txt
--- 
 
-require "luarocks.require";
-require "socket";
-require "socket.http";
-require "verse";
-require "verse.client";
 c = verse.new();
 c:add_plugin("sasl");
 c:add_plugin("version");
