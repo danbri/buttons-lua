@@ -98,6 +98,19 @@ c:hook("stanza", function (stanza)
 	  c:send(x); -- assuming it went ok, if http failed or other evidence of oops, send a notok?
 	end
 
+
+	if cmd == "PLPZ" then
+	  print "PLUS: received control msg, plpz!"; -- fixme: decide on a mapping
+          x=verse.iq({ type = "set", to = stanza.attr.from, from = stanza.attr.to });
+	  local http = require("socket.http");
+	  local res = http.request( vlc_toggle_pause );
+	  print("Tried to talk to vlc.", res);
+          x:tag("query"):tag("ok");
+	  c:send(x); -- assuming it went ok, if http failed or other evidence of oops, send a notok?
+	end
+
+
+
       end
     end
 
