@@ -1,0 +1,14 @@
+
+This is a Lua implementation of Buttons, an XMPP-based remote control framework for hypertext TV.
+
+It was designed with VLC (VideoLan Client) in mind, but should eventually be abstracted and useful elsewhere.
+
+It won't run directly inside VLC yet, since the underlying Verse Lua XMPP library has some C-based 
+dependencies that are not available within VLC's Lua.
+
+Author: Dan Brickley <danbri@danbri.org>
+License: W3C Software License (GPL-friendly; redist under GPL is fine)
+
+Acknowledgements: see source code for numerous libs. Buttons was initiated within the NoTube EU project.
+
+Links: http://buttons.foaf.tv/ http://www.notube.tv/
