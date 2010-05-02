@@ -293,12 +293,21 @@ c:hook("stanza", function (stanza)
 
 -- Note, Buttons markup needs to move from chat to IQ messages before we have a fixed protocol here:
 
-	if cmd == "NOWP" then
---	if cmd == "PLUS" then
-	  print "PLUS: received control msg, up/more/plus!"; -- fixme: decide on a mapping
+	if cmd == "RIGH" then
+	  print "RIGH: received control msg!"; -- fixme: decide on a mapping
           x=verse.iq({ type = "set", to = stanza.attr.from, from = stanza.attr.to });
 	  local http = require("socket.http");
 	  local res = http.request(vlc_next);
+	  print("Tried to talk to vlc.", res);
+          x:tag("query"):tag("ok");
+	  c:send(x); -- assuming it went ok, if http failed or other evidence of oops, send a notok?
+	end
+
+	if cmd == "LEFT" then
+	  print "LEFT: received control msg!"; -- fixme: decide on a mapping
+          x=verse.iq({ type = "set", to = stanza.attr.from, from = stanza.attr.to });
+	  local http = require("socket.http");
+	  local res = http.request(vlc_prev);
 	  print("Tried to talk to vlc.", res);
           x:tag("query"):tag("ok");
 	  c:send(x); -- assuming it went ok, if http failed or other evidence of oops, send a notok?
