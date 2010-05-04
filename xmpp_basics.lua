@@ -24,6 +24,7 @@ require "sha1"
 --local sha1 = require("util.hashes").sha1
 local st = require "util.stanza"
 local b64 = require("mime").b64
+local http = require("socket.http");
 
 
 -- see wiki.foaf-project.org/w/DanBri/LuaXMPP for setup tips
@@ -214,9 +215,12 @@ end
 -- set up XMPP 
 local jid, password = "buttons@foaf.tv", os.getenv ('BUTTONS_TEST');
 -- todo: check for nil password
+
 local xmlns_buttons = "http://buttons.foaf.tv/";
+
 vlc = "http://localhost:8080/requests/status.xml"; -- http://git.videolan.org/?p=vlc.git;a=blob_plain;f=share/http/requests/readme;hb=HEAD
 
+vlc_playlist = "http://localhost:8080/requests/status.xml";
 
 -- VLC commands
 -- First those with no arguments, that have side effects (HTTP POST / XMPP IQ SET?)
@@ -263,6 +267,15 @@ c:hook("stanza", function (stanza)
 	if cmd == "NOWP" then
 	  print "NOWP: What's now playing?";
 
+	  local plxml = http.request( vlc_playlist );
+	  local plinfo = "playlist info.";
+
+    words = {}
+    for w in string.gfind(plxml, "name=\"([^\"]+)\" ro=\"") do
+      print("XMLNAME: " , w);
+      table.insert(words, w)
+    end
+
           x=verse.iq({ type = "set", to = stanza.attr.from, from = stanza.attr.to });
           	x:tag("query")
 		  :tag("html")
@@ -279,8 +292,11 @@ c:hook("stanza", function (stanza)
 		    :text("Now Playing...")
 		    :up()
 		    :tag("div")
-		    :text("Current track: @@@ Next: ... Prev ....");
-
+		    :text("Current track: @@@ Next: ... Prev ....")
+		    :up()	
+		    :tag("hr")
+		    :text("playlist");
+			
 	  c:send(x);
 	end
 
@@ -317,7 +333,6 @@ c:hook("stanza", function (stanza)
 	if cmd == "PLPZ" then
 	  print "PLUS: received control msg, plpz!"; -- fixme: decide on a mapping
           x=verse.iq({ type = "set", to = stanza.attr.from, from = stanza.attr.to });
-	  local http = require("socket.http");
 	  local res = http.request( vlc_toggle_pause );
 	  print("Tried to talk to vlc.", res);
           x:tag("query"):tag("ok");
