@@ -361,7 +361,7 @@ end);
 c:hook("incoming-raw", print, 1000);
 
 -- Print a message after authentication
-c:hook("authentication-success", function () print("Logged in!"); end);
+c:hook("authentication-success", function () print("Logged in! (ready event, formerly authentication-success"); end);
 c:hook("authentication-failure", function (err) print("Failed to log in! Error: "..tostring(err.condition)); end);
 
 -- Print a message and exit when disconnected
@@ -371,7 +371,8 @@ c:hook("disconnected", function () print("Disconnected!"); os.exit(); end);
 c:connect_client(jid, password);
 
 -- Catch binding-success which is (currently) how you know when a stream is ready
-c:hook("binding-success", function ()
+--xxxc:hook("binding-success", function ()
+c:hook("ready", function ()
 	print("Stream ready!");
 	c:send(verse.presence());
         print("Sent presence!");
