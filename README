@@ -17,3 +17,6 @@ Google Talk: "it should just work", though you need LuaSec for TLS. This
 wraps OpenSSL so isn't pure Lua (and hence problematic in VLC). But installs
 easily with 'luarocks install luasec'.
 
+
+Squish:
+lua -lluarocks.require /usr/local/bin/squish --use-http --internal-bit-modul
