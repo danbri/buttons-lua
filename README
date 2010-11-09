@@ -19,4 +19,4 @@ easily with 'luarocks install luasec'.
 
 
 Squish:
-lua -lluarocks.require /usr/local/bin/squish --use-http --internal-bit-modul
+lua -lluarocks.require /usr/local/bin/squish --use-http --internal-bit-module
