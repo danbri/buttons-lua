@@ -20,3 +20,16 @@ easily with 'luarocks install luasec'.
 
 Squish:
 lua -lluarocks.require /usr/local/bin/squish --use-http --internal-bit-module
+
+
+
+Rough Notes ...
+
+Lua XMPP Disco API: (from MattJ)
+
+Firstly: conn:add_plugin("disco")
+then: conn:add_disco_feature("http://someuri/")
+Then when you send presence (I want to make a wrapper API for this...
+conn:send(verse.presence():add_child(conn:caps()))
+this adds the tag from XEP-0115
+which is an optimisation really
